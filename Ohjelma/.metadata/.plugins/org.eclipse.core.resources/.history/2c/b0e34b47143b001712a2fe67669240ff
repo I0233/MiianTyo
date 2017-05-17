@@ -1,0 +1,365 @@
+package modelli;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import fi.jyu.mit.fxgui.Dialogs;
+
+/**
+ * @author Miia Laurila
+ * @version 6.4.2017
+ *
+ *Luokka, jossa muodostetaan lisakoulutuksista taulukko.
+ */
+public class Lisakoulutukset{
+    
+    private String tiedostonPerusNimi = "lisakoulutukset";
+    private String kokoNimi = "";
+    
+	private static int maxLisakoulutuksia   = 1;
+    private static int              lkm           = 0;
+    private static Lisakoulutus      alkiot[]      = new Lisakoulutus[maxLisakoulutuksia];
+	
+    
+    /**
+     * lis‰koulutuksien alustus, mutta sit‰ ei tarvita.
+     */
+	public Lisakoulutukset(){
+		//ei tarvitse mit‰‰n
+	}
+	
+	
+	/**
+	 * @param i indeksi.
+	 * @return palauttaa kyseisen lis‰koulutuksen.
+	 * @throws IndexOutOfBoundsException virhe ilmoitus, jos indeksi on laiton.
+	 */
+	public Lisakoulutus anna(int i) throws IndexOutOfBoundsException {
+    	if(alkiot[i] == null){
+    		throw new IndexOutOfBoundsException("Laiton " + i);
+    	}
+		return alkiot[i];
+	}
+	
+	
+	/**
+	 * Antaa lis‰koulutuksien lukum‰‰r‰n.
+	 * @return lis‰koulutuksien lukum‰‰r‰n
+	 */
+	public int getLkm(){
+		return lkm;
+	}
+	
+	
+	/**
+	 * Lis‰‰ lis‰koulutukset taulukkoon.
+	 * @param lisakoulutukset taulukko lis‰tt‰vist‰ lis‰koulutuksista
+	 * @return alkiot koko lis‰koulutus taulukon, jossa on kaikki rekisteriss‰ olevien
+	 */
+	public Lisakoulutus[] lisaa(Lisakoulutus[] lisakoulutukset) {
+		int uusienMaara = 0;
+		int indeksi = 0;
+    	for(int i = 0; i<lisakoulutukset.length; i++){
+    		if(lisakoulutukset[i] != null){
+    			uusienMaara++;
+    		}
+    	}
+        if (lkm >= alkiot.length-uusienMaara){
+        	int mahtuu = alkiot.length-lkm;
+        	maxLisakoulutuksia = maxLisakoulutuksia + uusienMaara - mahtuu;
+        	int lisays = uusienMaara - mahtuu;
+        	Lisakoulutus[] lisaaAlkio = new Lisakoulutus[alkiot.length + uusienMaara - mahtuu];
+        	for(int k = 0; k<alkiot.length; k++){
+        		lisaaAlkio[k] = alkiot[k];
+        	}
+        	if(mahtuu >= 1){
+        		lisaaAlkio[lkm] = lisakoulutukset[0];
+        		indeksi++;
+        		lkm++;
+        		if(mahtuu >= 2){
+        			lisaaAlkio[lkm] = lisakoulutukset[1];
+        			indeksi++;
+        			lkm++;
+        			if(mahtuu == 3){
+        				lisaaAlkio[lkm] = lisakoulutukset[2];
+        				indeksi++;
+        				lkm++;
+        			}
+        		}
+        	}
+        	switch (lisays) {
+			case 1: lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+				indeksi++;
+				lkm++;
+				break;
+			case 2: lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+				indeksi++;
+				lkm++;
+    			lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+    			indeksi++;
+    			lkm++;
+    			break;
+			case 3: lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+				indeksi++;
+				lkm++;
+    			lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+    			indeksi++;
+    			lkm++;
+    			lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+    			indeksi++;
+    			lkm++;
+    			break;
+			case 4: lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+				indeksi++;
+				lkm++;
+				lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+				indeksi++;
+				lkm++;
+				lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+				indeksi++;
+				lkm++;
+				lisaaAlkio[lkm] = lisakoulutukset[indeksi];
+				indeksi++;
+				lkm++;
+				break;
+			default:
+				break;
+			}
+        	alkiot = new Lisakoulutus[lisaaAlkio.length];
+        	for(int i = 0; i<lisaaAlkio.length; i++){
+        		alkiot[i] = lisaaAlkio[i];
+        	}
+        }
+        else{
+	        for(int i = 0; i<lisakoulutukset.length; i++){
+	        	if(lisakoulutukset[i] == null){
+	        		break;
+	        	}
+        		alkiot[lkm] = lisakoulutukset[i];
+        		lkm++;
+	        }
+        }
+		return alkiot;
+    }
+
+
+	/**
+	 * Asetetaan lis‰koulutuksille Id:t
+	 * @param KasiteltavaTyontekija jonka lis‰koulutuksia k‰sitell‰‰n
+	 * @param lisakoulutukset tyˆntekij‰n lis‰koulutukset.
+	 */
+	public void laitaId(Tyontekija KasiteltavaTyontekija, Lisakoulutus[] lisakoulutukset) {
+		for(int i = 0; i<lisakoulutukset.length; i++){
+			for(int j = 0; j<alkiot.length; j++){
+				if(lisakoulutukset[i]==null){
+					break;
+				}
+				if(lisakoulutukset[i].equals(alkiot[j])){
+					int id = alkiot[j-1].getId()+1;
+					alkiot[j].setId(id);
+					alkiot[j].setTyontekijanId(KasiteltavaTyontekija.getId());
+				}
+			}
+		}
+	}
+
+
+	/**
+     * Lukee tyˆntekij‰t tiedostosta. 
+     * @param tied tiedoston perusnimi
+     */
+    public void lueTiedostosta(String tied) {
+        setTiedostonPerusNimi(tied);
+        try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
+            if ( kokoNimi == null ) {
+                Dialogs.showMessageDialog("Tiedoston nimi puuttuu.");
+            }
+            String rivi = fi.readLine();
+            if ( rivi == null ) {
+                Dialogs.showMessageDialog("Tiedoston maksimi koko puuttuu.");
+            }
+
+            while ( (rivi = fi.readLine()) != null ) {
+                rivi = rivi.trim();
+                if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+                Lisakoulutus[] lisakoulutus = poimiLisakoulutukset(rivi);
+                lisaa(lisakoulutus);
+                
+            }
+        } catch ( FileNotFoundException e ) {
+            Dialogs.showMessageDialog("Tiedosto " + getTiedostonNimi() + " ei aukea");
+        } catch ( IOException e ) {
+            Dialogs.showMessageDialog("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Poimitaan lis‰koulutuksen tiedot teidoston rivilt‰.
+     * @param rivi tiedoston rivi
+     * @return poimittu lis‰koulutus.
+     */
+	private Lisakoulutus[] poimiLisakoulutukset(String rivi) {
+		Lisakoulutus koulutus = new Lisakoulutus();
+		koulutus.poimiLisakoulutus(rivi);
+		Lisakoulutus[] lisakoulutus = {koulutus};
+		return lisakoulutus;
+	}
+
+
+	/**
+     * Luetaan aikaisemmin annetun nimisest‰ tiedostosta
+     */
+    public void lueTiedostosta() {
+        lueTiedostosta(getTiedostonPerusNimi());
+    }
+    
+    
+    /**
+     * Asettaa tiedoston perusnimen.
+     * @param nimi tallennustiedoston perusnimi
+     */
+    public void setTiedostonPerusNimi(String nimi){
+        tiedostonPerusNimi = nimi;
+    }
+    
+    
+    /**
+     * Palauttaa tiedoston nimen, jota k‰ytet‰‰n tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonNimi() {
+        return getTiedostonPerusNimi() + ".dat";
+    }
+    
+    
+    /**
+     * Palauttaa tiedoston nimen, jota k‰ytet‰‰n tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonPerusNimi() {
+        return tiedostonPerusNimi;
+    }
+
+
+	/**
+	 * Lis‰t‰‰n tiedostoon uudet lis‰koulutukset.
+	 */
+	public void lisaaTiedostoon() {
+    	try(BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi()))){
+    		try(PrintWriter output = new PrintWriter(new FileWriter("temp.dat",true))){
+    			output.println(alkiot.length);
+        		for(int i = 0; i<alkiot.length; i++){
+        			if(alkiot[i]==null){
+        				break;
+        			}
+        			output.println(alkiot[i].tulostuu());
+        		}
+        	}
+    	} catch ( FileNotFoundException e ) {
+    	    Dialogs.showMessageDialog("Tiedosto " + getTiedostonNimi() + " ei aukea");
+        } catch ( IOException e ) {
+            Dialogs.showMessageDialog("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }
+    	
+    	File alkuperainenTiedosto = new File(getTiedostonNimi());
+        alkuperainenTiedosto.delete();
+        File muokattu = new File("temp.dat");
+        muokattu.renameTo(alkuperainenTiedosto);
+	}
+	
+
+	/**
+	 * Muokataan olemassa oleva lis‰koulutus.
+	 * @param i indeksi
+	 * @param lisakoulutus muokattu lis‰koulutus.
+	 */
+	public void muokkaaLisakoulutus(int i, Lisakoulutus lisakoulutus) {
+		alkiot[i] = lisakoulutus;
+	}
+	
+	
+	/**
+	 * muokataan olemassa oleva lis‰koulutus.
+	 * @param id lis‰koulutuksen id
+	 * @param koulutus lis‰koulutuksen nimi
+	 * @param suoritus lis‰koulutuksen suoritusp‰iv‰m‰‰r‰
+	 * @param voimassa lis‰koulutuksen voimassaolop‰iv‰m‰‰r‰
+	 */
+	public void muokkaaLisakoulutus(int id, String koulutus, String suoritus, String voimassa) {
+		for(int i = 0; i<alkiot.length; i++){
+			if(alkiot[i].getId() == id){
+				alkiot[i].setKoulutus(koulutus);
+				alkiot[i].setSuoritusPvm(suoritus);
+				alkiot[i].setVoimassaolo(voimassa);
+			}
+		}
+	}
+
+	
+	/**
+	 * Poistetaan poistettavan tyˆntekij‰n lis‰koulutukset tiedostosta.
+	 * @param poistettava tyˆntekij‰, joka poistetaan
+	 */
+	public void poistaTiedostosta(int poistettava) {
+    	try(PrintWriter output = new PrintWriter(new FileWriter("temp.dat",true))){
+    		output.println(maxLisakoulutuksia);
+    		for(int i = 0; i<alkiot.length; i++){
+    			if(alkiot[i] == null){
+    				break;
+    			}
+    			else if(alkiot[i].getTyontekijanId() == poistettava){
+    				lkm--;
+    			}
+    			else{
+    				output.println(alkiot[i].tulostuu());
+    			}
+    		}
+    	} catch ( FileNotFoundException e ) {
+    	    Dialogs.showMessageDialog("Tiedosto " + getTiedostonNimi() + " ei aukea");
+        } catch ( IOException e ) {
+            Dialogs.showMessageDialog("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }
+    	
+    	File alkuperainenTiedosto = new File(getTiedostonNimi());
+        alkuperainenTiedosto.delete();
+        File muokattu = new File("temp.dat");
+        muokattu.renameTo(alkuperainenTiedosto);
+		
+	}
+
+	
+	/**
+	 * Poistetaan poistettavan tyˆntekij‰n lis‰koulutukset taulukosta.
+	 * @param poistettava tyˆntekij‰, joka poistetaan
+	 */
+	public void poistaTaulukosta(int poistettava) {
+		int poistettavienMaara = 0;
+		for(Lisakoulutus alkio : alkiot){
+			if(alkio != null){
+				if(alkio.getTyontekijanId() == poistettava){
+					poistettavienMaara++;
+				}
+			}
+		}
+		Lisakoulutus[] apu = new Lisakoulutus[alkiot.length-poistettavienMaara];
+		int indeksi = 0;
+		for(Lisakoulutus i : alkiot){
+			if(i != null){
+				if(poistettava != i.getTyontekijanId()){
+					apu[indeksi] = i;
+					indeksi++;
+				}
+			}
+		}
+		alkiot = new Lisakoulutus[apu.length];
+		for(int j = 0; j<apu.length; j++){
+			alkiot[j] = apu[j];
+		}
+	}
+	
+}

@@ -1,0 +1,35 @@
+/**
+ * Haku-ominaisuuden ympärillä olevat kehykset.
+ */
+.boksit {
+    -fx-border-color: #c9c8c8;
+    -fx-border-width: 1px;
+    -fx-padding: 3;
+    -fx-spacing: 1;
+}
+
+/**
+ * Yhden lisäkoulutus-taulukon kehykset lisäys- ja muokkausnäkymässä.
+ */
+.vbox {
+    -fx-border-color: #000;
+    -fx-border-width: 1px;
+    -fx-padding: 5;
+    -fx-spacing: 2;
+}
+
+/**
+ * Lisäkoulutuksien lisäämis- ja muokkausosion tekstikenttien koot.
+ */
+.tekstit {
+	-fx-min-width: 180;
+}
+
+
+/**
+ * Virheellinen syöttö.
+ */
+.virhe {
+	-fx-text-box-border: #FF0000;
+	-fx-border-width: 1px;
+}

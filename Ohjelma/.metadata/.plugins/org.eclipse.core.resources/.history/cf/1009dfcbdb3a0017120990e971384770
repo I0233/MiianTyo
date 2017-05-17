@@ -1,0 +1,241 @@
+package modelli;
+
+
+/**
+ * @author Miia Laurila
+ * @version 6.4.2017
+ *
+ *Luokka työntekijän tietojen asettamiseksi.
+ */	
+public class Tyontekija {
+ 
+	private int id;
+	private String nimi;
+	private String hetu;
+	private String tyonimike;
+	private String katuosoite;
+	private int postinumero;
+	private String postitoimipaikka;
+	private String puhelinnumero;
+	private Boolean tyosopimus;
+	
+	private static int tamanId = 1;
+	
+	/**
+	 * Konstruktori
+	 */
+	public Tyontekija() {
+	    // ei tarvitse alustaa
+	}
+	
+	
+	/**
+	 * @return id työntekijän id.
+	 * 
+	 * Saadaan työntekijän id
+	 */
+	public int getId() {
+		return id;
+	}
+
+
+	/**
+	 * Asetetaan haluttu id
+	 * @param i haluttu id
+	 * @return id
+	 */
+	public int setId(int i){
+		id = i;
+		tamanId = i;
+		tamanId++;
+		return id;
+	}
+
+	
+	/**
+	 * Asetetaan työntekijälle id
+	 * @return työntekijän id
+	 */
+	public int setId() {
+		id = tamanId;
+		tamanId++;
+		return id;
+	}
+	
+	
+	/**
+	 * Saadaan työntekijän nimi
+	 * @return nimi
+	 */
+	public String getNimi() {
+		return nimi;
+	}
+	
+	
+	/**
+	 * Asetetaan työntekijälle nimi
+	 * @param nimi työntekijän nimi
+	 */
+	public void setNimi(String nimi) {
+		this.nimi = nimi;
+	}
+	
+	
+	/**
+	 * Saadaan työntekijän hetu
+	 * @return hetu työntekijän hetu
+	 */
+	public String getHetu() {
+		return hetu;
+	}
+	
+	
+	/**
+	 * Asetetaan työntekijälle hetu
+	 * @param hetu työntekijän hetu
+	 */
+	public void setHetu(String hetu) {
+		this.hetu = hetu;
+	}
+	
+	
+	/**
+	 * Saadaan työntekijän työnimike
+	 * @return tyonimike työntekijän työnimike
+	 */
+	public String getTyonimike() {
+		return tyonimike;
+	}
+	
+	
+	/**
+	 * Asetetaan työntekijälle työnimike
+	 * @param tyonimike työntekijän nimike
+	 */
+	public void setTyonimike(String tyonimike) {
+		this.tyonimike = tyonimike;
+	}
+	
+	
+	/**
+	 * Saadaan työntekijän katuosoite
+	 * @return katuosoite työntekijän katuosoite
+	 */
+	public String getKatuosoite() {
+		return katuosoite;
+	}
+	
+	
+	/**
+	 * Asetetaan työntekijälle katuosoite
+	 * @param katuosoite työntekijän katuosoite
+	 */
+	public void setKatuosoite(String katuosoite) {
+		this.katuosoite = katuosoite;
+	}
+	
+	
+	/**
+	 * @return postinumero työntekijän postinumero
+	 * 
+	 * Saadaan työntekijän postinumero
+	 */
+	public int getPostinumero() {
+		return postinumero;
+	}
+	
+	
+	/**
+	 * @param postinumero työntekijän postinumero
+	 * 
+	 * Asetetaan työntekijälle postinumero
+	 */
+	public void setPostinumero(int postinumero) {
+		this.postinumero = postinumero;
+	}
+	
+	
+	/**
+	 * @return postitoimipaikka työntekijän postitoimipaikka
+	 * 
+	 * Saadaan työntekijän postitoimipaikka.
+	 */
+	public String getPostitoimipaikka() {
+		return postitoimipaikka;
+	}
+	
+	
+	/**
+	 * @param postitoimipaikka työntekijän postitoimipaikka
+	 * 
+	 * Asetetaan työntekijälle postitoimipaikka
+	 */
+	public void setPostitoimipaikka(String postitoimipaikka) {
+		this.postitoimipaikka = postitoimipaikka;
+	}
+	
+	
+	/**
+	 * @return puhelinnumero työntekijä puhelinnumero
+	 * 
+	 * Saadaan työntekijän puhelinnumero
+	 */
+	public String getPuhelinnumero() {
+		return puhelinnumero;
+	}
+	
+	
+	/**
+	 * @param puhelinnumero työntekijän puhelinnumero
+	 * 
+	 * Asetetaan työntekijälle puhelinnumero
+	 */
+	public void setPuhelinnumero(String puhelinnumero) {
+		this.puhelinnumero = puhelinnumero;
+	}
+	
+	
+	/**
+	 * @return tyosopimus onko voimassa olevaa työsopimusta työntekijällä
+	 * 
+	 * Saadaan työntekijän työsopimuksen voimassaolo (true/false)
+	 */
+	public Boolean getTyosopimus() {
+		return tyosopimus;
+	}
+	
+	
+	/**
+	 * @param tyosopimus onko voimassa olevaa työsopimusta työntekijällä
+	 * 
+	 * Asetetaan työntekijän työsompimus voimassa olevaksi (true) tai ei (false)
+	 */
+	public void setTyosopimus(Boolean tyosopimus) {
+		this.tyosopimus = tyosopimus;
+	}
+
+
+	public void poimiTyontekijanTiedot(String rivi) {
+		String[] splitattu = rivi.split("[|]");
+		Boolean tyosopimus = false;
+		if(splitattu[8].equals("true")){
+			tyosopimus = true;
+		}
+		this.id = setId(Integer.parseInt(splitattu[0]));
+		this.nimi = splitattu[1];
+		this.hetu = splitattu[2];
+		this.tyonimike = splitattu[3];
+		this.katuosoite = splitattu[4];
+		this.postinumero = Integer.parseInt(splitattu[5]);
+		this.postitoimipaikka = splitattu[6];
+		this.puhelinnumero = splitattu[7];
+		this.tyosopimus = tyosopimus;
+	}
+
+
+	public String tulostuu() {
+		String tulostus = this.id+"|"+this.nimi+"|"+this.hetu+"|"+this.tyonimike+"|"+this.katuosoite+"|"
+				+this.postinumero+"|"+this.postitoimipaikka+"|"+this.puhelinnumero+"|"+this.tyosopimus+"|";
+		return tulostus;
+	}
+}

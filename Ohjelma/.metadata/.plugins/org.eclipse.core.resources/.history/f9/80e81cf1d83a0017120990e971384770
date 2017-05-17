@@ -1,0 +1,156 @@
+package modelli;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+/**
+ * @author Miia Laurila
+ * @version 2.2.2017
+ * 
+ * Luokka lisäkoulutuksien muodostamiseksi.
+ **/
+public class Lisakoulutus {
+	
+	private SimpleStringProperty koulutus;
+	private SimpleStringProperty suoritusPvm;
+	private SimpleStringProperty voimassaolo;
+	private int id;
+	private int monesko;
+	
+	private static int tamanId = 1;
+	
+	/**
+	 * Konstruktori
+	 */
+	public Lisakoulutus() {
+		// Ei tarvitse alustaa.
+	}
+	
+	
+	/**
+	 * Asetetaan id tietyksi.
+	 * @param i asetettava id
+	 * @return id
+	 */
+	public int setId(int i){
+		monesko = i;
+		tamanId = i;
+		tamanId++;
+		return monesko;
+	}
+	
+	
+	/**
+	 * Asetetaan id.
+	 * @return id
+	 */
+	public int setId(){
+		monesko = tamanId;
+		tamanId++;
+		return monesko;
+	}
+	
+	/**
+	 * Saadaan id
+	 * @return id
+	 */
+	public int getId(){
+		return monesko;
+	}
+	
+	/**
+	 * Asetetaan lisäkoulutukselle työntekijän id.
+	 * @param i työntekijän id.
+	 * @return työntekijän id.
+	 */
+	public int setTyontekijanId(int i) {
+		id = i;
+		return id;
+	}
+	
+	
+	/**
+	 * Saadaan työntekijän id
+	 * @return id työntekijän id, jonka lisäkoulutus käsiteltävä lisäkoulutus on.
+	 */
+	public int getTyontekijanId(){
+		return id;
+	}
+	
+	/**
+	 * Saadaan koulutus
+	 * @return koulutus lisäkoulutus
+	 */
+	public StringProperty getKoulutus() {
+        return koulutus;
+    }
+
+	
+	/**
+	 * Asetetaan koulutus.
+	 * @param koulutusStr lisäkoulutus
+	 */
+    public void setKoulutus(String koulutusStr) {
+        this.koulutus.set(koulutusStr);
+    }
+    
+    
+    /**
+     * Saadaan lisäkoulutuksen suorituspäivämäärä.
+     * @return suoritusPvm suorituspäivämäärä
+     */
+    public StringProperty getSuoritusPvm() {
+        return suoritusPvm;
+    }
+
+    
+    /**
+     * Asetetaan lisäkoulutuksen suorituspäivämäärä
+     * @param suoritusPvm suorituspäivämäärä
+     */
+    public void setSuoritusPvm(String suoritusPvm) {
+        this.suoritusPvm.set(suoritusPvm);
+    }
+
+
+    /**
+     * Saadaan lisäkoulutuksen voimassaolopäivämäärä
+     * @return voimassaolo voimassaolopäivämäärä
+     */
+    public StringProperty getVoimassaolo() {
+        return voimassaolo;
+    }
+
+    
+    /**
+     * Asetetaan lisäkoulutuksen voimassaolopäivämäärä
+     * @param voimassaolo voimassaolopäivämäärä
+     */
+    public void setVoimassaolo(String voimassaolo) {
+        this.voimassaolo.set(voimassaolo);
+    }
+
+
+	/**
+	 * Muodostetaan lisäkoulutus tiedoston rivistä.
+	 * @param rivi josta lisäkoulutus poimitaan.
+	 * @param lisakoulutus lisäkoulutus , johon tiedot asetetaan
+	 */
+	public void poimiLisakoulutus(String rivi, Lisakoulutus lisakoulutus) {
+		String[] splitattu = rivi.split("[|]");
+		lisakoulutus.setKoulutus(splitattu[2]);
+		lisakoulutus.setSuoritusPvm(splitattu[3]);
+		this.setVoimassaolo(splitattu[4]);
+		this.setId(Integer.parseInt(splitattu[0]));
+		this.setTyontekijanId(Integer.parseInt(splitattu[1]));
+	}
+
+
+	/**
+	 * @return koulutuksen tiedot String -tyyppisenä.
+	 */
+	public String tulostuu() {
+		String tulostus = this.getId()+"|"+this.getTyontekijanId()+"|"+this.getKoulutus().getValue()+"|"+this.getSuoritusPvm().getValue()+"|"+this.getVoimassaolo().getValue()+"|";
+		return tulostus;
+	}
+}

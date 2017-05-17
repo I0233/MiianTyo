@@ -1,0 +1,63 @@
+package kaynnistys;
+import fxPalvelutalo.PalvelutaloGUIController;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+/**
+ * @author Miia Laurila
+ * @version 6.4.2017
+ *
+ *Luokka k‰ynnistysn‰kym‰n tapahtumien hoitamiseksi
+ */	
+public class KaynnistysController{
+	
+	@FXML private TextField nimi;
+	private String rekisteri = "Chicago";
+	private PalvelutaloGUIController obj = new PalvelutaloGUIController();
+	private Stage aloitus; 
+	
+	
+	/**
+	 * Peruutetaan ohjelman avaaminen
+	 */
+	@FXML void handlePeru(){
+		 Platform.exit();
+	}
+	
+	
+	/**
+	 * Asetetaan oletusteksti
+	 */
+	@FXML private void initialize(){
+		nimi.setText(rekisteri);
+	}
+	
+	
+	/**
+	 * K‰sitell‰‰n, onko rekisteri olemassa.
+	 */
+	@FXML void handleJatka(){
+		aloitus = (Stage) nimi.getScene().getWindow();
+		rekisteri = nimi.getText();
+		if(rekisteri.equals("Chicago")){
+			obj.handleSulje(aloitus, true);
+		}
+		else{
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/virhe/Ilmoitus.fxml"));
+			String otsikko = "Ilmoitus";
+			obj.avaaNakyma(fxmlLoader, otsikko, aloitus, false, false);
+		}
+	}
+	
+	
+	/**
+	 * Palautetaan, mit‰ on kentt‰‰n kirjoitettu.
+	 * @return rekisteri palauttaa rekisterin kentt‰‰n kirjoitetun nimen
+	 */
+	public String getNimi(){
+		return rekisteri;
+	}
+}

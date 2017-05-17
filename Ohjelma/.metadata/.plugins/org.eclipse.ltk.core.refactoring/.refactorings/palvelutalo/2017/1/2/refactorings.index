@@ -1,0 +1,21 @@
+1484050629587	Rename type 'Main'
+1484051471649	Rename resource 'application.css'
+1484051552862	Rename resource 'Palvelutalo.css'
+1484143106702	Rename resource 'application.css'
+1484154183456	Delete element
+1484162930719	Delete element
+1484162993148	Delete element
+1484163769004	Delete element
+1484164738204	Rename package 'Modelli'
+1484165178607	Encapsulate field 'nimi'
+1484165208502	Encapsulate field 'sotu'
+1484165222364	Encapsulate field 'tyonimike'
+1484165234885	Encapsulate field 'katuosoite'
+1484165244720	Encapsulate field 'postinumero'
+1484165248599	Encapsulate field 'postitoimipaikka'
+1484165252126	Encapsulate field 'puhelinnumero'
+1484165255840	Encapsulate field 'tyosopimus'
+1484165261305	Encapsulate field 'lisakoulutus'
+1484165265163	Encapsulate field 'suorituspvm'
+1484165268331	Encapsulate field 'voimassaolo'
+1484494553019	Encapsulate field 'Id'

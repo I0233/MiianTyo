@@ -1,0 +1,49 @@
+package virhe;
+import javafx.fxml.*;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import fxPalvelutalo.*;
+import kaynnistys.*;
+import modelli.Palvelutalo;
+
+
+/**
+ * @author Miia Laurila
+ * @version 6.4.2017
+ *
+ *Luokka virhe ikkunan tapahtumien hoitamiseksi
+ */	
+public class IlmoitusController {
+	
+	@FXML private Button ok;
+	@FXML private Label palvelukeskus;
+	
+	private PalvelutaloGUIController obj = new PalvelutaloGUIController();
+	private Palvelutalo palvelutalo = new Palvelutalo();
+	private String nimi = KaynnistysController.getNimi();
+	private Stage virhe;
+	
+	
+	/**
+	 * hakee nimen, joka on kirjoitettu ja lis‰‰ tekstin.
+	 */
+	@FXML private void initialize(){
+	    virhe = (Stage) ok.getScene().getWindow();
+		palvelukeskus.setText(nimi+" nimist‰");
+	}
+
+	
+	/**
+	 * K‰sittelee peruuta-napin painalluksen.
+	 */
+	@FXML void handleSelva(){
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/kaynnistys/KaynnistysView.fxml"));
+		String otsikko = PalvelutaloMain.getRekisteri();
+		obj.avaaNakyma(fxmlLoader, otsikko, virhe, false, false);
+	}
+	
+	@FXML void handleUusi(){
+	    palvelutalo.luoTiedosto(nimi, "tyontekijat", "lisakoulutukset");
+	    obj.handleSulje(virhe, true);
+	}
+}
